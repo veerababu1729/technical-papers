@@ -1,6 +1,6 @@
 # Python Strings Cheat Sheet
 
-Strings come up in almost every coding round.
+Strings is on of the most imp topic in python.
 
 ---
 
