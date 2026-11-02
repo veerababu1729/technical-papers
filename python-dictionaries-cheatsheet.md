@@ -27,18 +27,7 @@ d = {"name": "Sam", "age": 21}      # literal
 empty = {}                          # empty dict
 empty2 = dict()                     # also empty
 d2 = dict(name="Sam", age=21)       # keyword style
-```
-
-**(extra)** Other ways:
-```python
-dict([("a", 1), ("b", 2)])                # {'a': 1, 'b': 2}
-
-keys = ["a", "b"]
-vals = [1, 2]
-dict(zip(keys, vals))                     # {'a': 1, 'b': 2}
-
-dict.fromkeys(["a", "b"], 0)              # {'a': 0, 'b': 0}
-```
+```  
 
 Duplicate keys: the last one wins.
 ```python
