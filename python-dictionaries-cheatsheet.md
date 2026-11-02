@@ -82,7 +82,7 @@ for key, value in person.items():
 Shortcut:
 - `d.keys()` gives all keys
 - `d.values()` gives all values
-- `d.items()` gives (key, value) pairs
+- `d.items()` gives (key, value) pairs in a tuple.
 
 Looping over the dict directly gives keys:
 ```python
