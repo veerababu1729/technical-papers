@@ -47,7 +47,8 @@ Shell: Command Interpreter to execute the commands.
     - grep filters audio devices with case insensisitivity.  
 
 24. Search file names or folder names:
-    ``` sudo find / -iname '*java*' 2>/dev/null```  (at root level)  
+    ``` sudo find / -iname '*java*' 2>/dev/null```  (at root level)
+    In Linux, 2 represents the standard error stream (stderr). Sending it to /dev/null discards those errors completely, so you only see the actual files you are looking for.  
     ``` find ~ -iname '*java*'```
     ``` find ~ -type f "*.txt"```
     Note that in CLI ' ' or " " is treated same by shell.
