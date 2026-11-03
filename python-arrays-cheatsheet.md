@@ -4,7 +4,7 @@ Lists, Tuples, Sets, Dictionaries.
 
 ---
 
-## Lists
+## 1. Lists
 
 A list stores multiple values in one variable. Think of a grocery list: one sheet, many items. The items can be of different types.
 
@@ -188,7 +188,7 @@ print(L.count(1))    # 3
 
 ---
 
-## Tuples
+## 2. Tuples
 
 Like a list, but **immutable**. Once created, you can't change, add or remove items.
 
@@ -255,7 +255,7 @@ print(langs)    # ('python', 'go', 'c', 'rust')
 
 ---
 
-## Sets
+## 3. Sets
 
 A collection with **no duplicates**. Unordered, so no indexes.
 
@@ -364,7 +364,7 @@ myset = {1, 2, (3, 4)}     # fine, tuple is allowed
 
 ---
 
-## Dictionaries
+## 4. Dictionaries
 
 Data stored as **key: value** pairs, like a phone book (name is the key, number is the value).
 
