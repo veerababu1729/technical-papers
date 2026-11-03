@@ -343,4 +343,4 @@ print({v: k for k, v in d.items()})    # {1: 'a', 2: 'b'}
   ```python
   {k: [] for k in ["a", "b"]}
   ```
-- **Speed.** Looking up, adding or deleting a key is O(1) on average. `x in d` is fast, but `x in d.values()` scans every value (O(n)).
+**- **Speed.** Looking up, adding or deleting a key is O(1) on average. `x in d` is fast, but `x in d.values()` scans every value (O(n)).**
