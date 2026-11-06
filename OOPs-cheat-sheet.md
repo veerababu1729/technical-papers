@@ -6,8 +6,8 @@
 
 Real applications are written with classes and objects, and coding rounds use them too.
 
-- **Class** = blueprint. It describes what something has (variables) and what it can do (functions, called methods).
-- **Object** = one real thing made from that blueprint (also called an instance).
+- **Class** =  A blueprint or template that defines the structure (attributes and methods) for creating objects.
+- **Object** = A concrete instance of a class that holds actual data and occupies memory.
 
 One `Car` class, many car objects:
 
