@@ -231,7 +231,8 @@ for b in books:
 
 The book stops at classes and objects. These four ideas are what "OOP" means in interviews.
 
-### 1. Encapsulation
+### 1. Encapsulation:  
+Encapsulation is the practice of binding the data (variables) and the code (methods) together into a single unit (a class), while restricting direct access to some of the object's components.  
 
 Keep data and the methods that work on it together, and protect the data from careless changes.
 
@@ -261,8 +262,8 @@ print(a.__balance)        # AttributeError
 
 Python doesn't truly lock anything. `a._Account__balance` still works. It's a convention, not a wall.
 
-### 2. Inheritance
-
+### 2. Inheritance  
+Inheritance allows a new class (child/subclass) to adopt/resuse the attributes and methods of an existing class (parent/superclass).  
 A child class reuses what a parent class already has.
 
 ```python
@@ -292,8 +293,10 @@ class Cat(Animal):
         self.indoor = indoor
 ```
 
-### 3. Polymorphism
-
+### 3. Polymorphism  
+Polymorphism means "many forms." It allows different classes to be treated as if they are the same type, letting the same method execution behave differently depending on the object calling it.  
+1. compile time: Method overloading.  (same methods with different arguemnts presented within a class)  
+2. run time: Method overriding.   (child class overrides methods of parent class)  
 Same method name, different behaviour depending on the object. A child overrides the parent's method:
 
 ```python
@@ -319,8 +322,8 @@ for pet in [Dog(), Cat(), Animal()]:
 
 The loop doesn't care which type each pet is. It just calls `speak()`.
 
-### 4. Abstraction
-
+### 4. Abstraction  
+Abstraction is the practice of hiding the complex internal implementation details and showing only the essential features to the user.  
 Show what something does, hide how it does it. In Python you build a blueprint that other classes must complete.
 
 ```python
