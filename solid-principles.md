@@ -6,11 +6,11 @@ They are applicable to Python, Java, C++, and other object-oriented languages.
 
 ## SOLID Principles
 
-1. **S — Single Responsibility Principle (SRP):** One class should have one responsibility.
-2. **O — Open/Closed Principle (OCP):** Open for extension, closed for modification.
-3. **L — Liskov Substitution Principle (LSP):** Child classes should be replaceable for parent classes.
-4. **I — Interface Segregation Principle (ISP):** Don't force classes to implement methods they don't need.
-5. **D — Dependency Inversion Principle (DIP):** Depend on abstractions, not concrete implementations.
+1. **S - Single Responsibility Principle (SRP):** One class should have one responsibility.
+2. **O - Open/Closed Principle (OCP):** Open for extension, closed for modification.
+3. **L - Liskov Substitution Principle (LSP):** Child classes should be replaceable for parent classes.
+4. **I - Interface Segregation Principle (ISP):** Don't force classes to implement methods they don't need.
+5. **D - Dependency Inversion Principle (DIP):** Depend on abstractions, not concrete implementations.
 
 ---
 
