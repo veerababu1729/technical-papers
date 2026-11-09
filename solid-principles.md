@@ -1,130 +1,165 @@
-# SOLID Principles Cheat Sheet
+# SOLID Principles in Python
 
-SOLID is five habits for writing classes that are easy to change without breaking things.
+SOLID principles are **5 important object-oriented programming (OOP) principles** that help us write clean, maintainable, reusable, and scalable code.
 
-| Letter | Principle | One line |
-|--------|-----------|----------|
-| S | Single Responsibility | one class, one job |
-| O | Open/Closed | add new behaviour without editing old code |
-| L | Liskov Substitution | a child must work wherever its parent works |
-| I | Interface Segregation | don't force classes to implement what they don't use |
-| D | Dependency Inversion | depend on abstractions, pass dependencies in |
+They are applicable to Python, Java, C++, and other object-oriented languages.
 
-Prerequisite: classes, inheritance, and `ABC` from the OOP sheet.
+## SOLID Principles
 
----
-
-## S: Single Responsibility
-
-A class should have **one reason to change**.
-
-**Bad.** One class does three jobs:
-```python
-class Order:
-    def __init__(self, items):
-        self.items = items
-
-    def total(self):
-        return sum(self.items)
-
-    def save_to_db(self):
-        print("Saving order to database...")
-
-    def send_email(self):
-        print("Sending confirmation email...")
-```
-Change the database and you edit `Order`. Change the email text and you edit `Order`. Everything is tangled together.
-
-**Good.** One job each:
-```python
-class Order:
-    def __init__(self, items):
-        self.items = items
-
-    def total(self):
-        return sum(self.items)
-
-
-class OrderRepository:
-    def save(self, order):
-        print("Saving order to database...")
-
-
-class EmailService:
-    def send_confirmation(self, order):
-        print("Sending confirmation email...")
-```
-
-```python
-order = Order([100, 250, 50])
-OrderRepository().save(order)
-EmailService().send_confirmation(order)
-```
-
-**Check yourself:** can you describe the class without using "and"? "It calculates the total **and** saves **and** emails" means split it.
+1. **S — Single Responsibility Principle (SRP):** One class should have one responsibility.
+2. **O — Open/Closed Principle (OCP):** Open for extension, closed for modification.
+3. **L — Liskov Substitution Principle (LSP):** Child classes should be replaceable for parent classes.
+4. **I — Interface Segregation Principle (ISP):** Don't force classes to implement methods they don't need.
+5. **D — Dependency Inversion Principle (DIP):** Depend on abstractions, not concrete implementations.
 
 ---
 
-## O: Open/Closed
+## 1. S — Single Responsibility Principle (SRP)
 
-Code should be **open for extension, closed for modification**. You add new features by adding new code, not by editing working code.
+**Definition:** A class should have only one reason to change.
 
-**Bad.** Every new customer type means editing this function:
+Imagine you are developing an employee management application.
+
+### Bad implementation
+
 ```python
-def get_discount(customer_type, price):
-    if customer_type == "regular":
-        return price * 0.05
-    elif customer_type == "premium":
-        return price * 0.10
-    elif customer_type == "student":
-        return price * 0.15
-```
-Every edit risks breaking the existing branches.
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
 
-**Good.** Each discount is its own class:
-```python
-class Discount:
-    def apply(self, price):
-        raise NotImplementedError
+    def calculate_salary(self):
+        return self.salary
 
+    def save_to_database(self):
+        print("Saving employee to database")
 
-class RegularDiscount(Discount):
-    def apply(self, price):
-        return price * 0.05
-
-
-class PremiumDiscount(Discount):
-    def apply(self, price):
-        return price * 0.10
-
-
-class StudentDiscount(Discount):
-    def apply(self, price):
-        return price * 0.15
-
-
-def final_price(price, discount):
-    return price - discount.apply(price)
-
-
-print(final_price(1000, PremiumDiscount()))    # 900.0
+    def generate_report(self):
+        print("Generating employee report")
 ```
 
-A new `FestivalDiscount` class means a new class and nothing else. `final_price` never changes.
+What's the problem?
 
-**Check yourself:** an `if/elif` chain that keeps growing as new types appear is the usual sign.
+This class has three responsibilities:
+
+1. Calculating salary.
+2. Saving employee data.
+3. Generating reports.
+
+### Better implementation
+
+```python
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def calculate_salary(self):
+        return self.salary
+
+
+class EmployeeDatabase:
+    def save(self, employee):
+        print("Saving employee to database")
+
+
+class EmployeeReport:
+    def generate(self, employee):
+        print("Generating employee report")
+```
+
+Now each class has a separate responsibility.
+
+**Remember:** One class = One primary responsibility.
 
 ---
 
-## L: Liskov Substitution
+## 2. O — Open/Closed Principle (OCP)
 
-If code works with a parent class, it should work with **any child class** too, without surprises.
+**Definition:** Software entities should be open for extension but closed for modification.
 
-**Bad.** The child breaks the parent's promise:
+Let's imagine a payment application.
+
+### Bad implementation
+
+```python
+class Payment:
+    def pay(self, payment_type):
+        if payment_type == "UPI":
+            print("Paying through UPI")
+
+        elif payment_type == "Card":
+            print("Paying through Card")
+```
+
+Tomorrow, if you introduce Net Banking, you need to modify the existing class.
+
+This becomes difficult as the application grows.
+
+### Better implementation
+
+```python
+class Payment:
+    def pay(self):
+        pass
+
+
+class UPIPayment(Payment):
+    def pay(self):
+        print("Paying through UPI")
+
+
+class CardPayment(Payment):
+    def pay(self):
+        print("Paying through Card")
+
+
+class NetBankingPayment(Payment):
+    def pay(self):
+        print("Paying through Net Banking")
+```
+
+### Usage
+
+```python
+payments = [
+    UPIPayment(),
+    CardPayment(),
+    NetBankingPayment()
+]
+
+for payment in payments:
+    payment.pay()
+```
+
+### Output
+
+```text
+Paying through UPI
+Paying through Card
+Paying through Net Banking
+```
+
+We can add new payment types without changing the existing payment implementations.
+
+**Remember:** Add new functionality without unnecessarily modifying existing working code.
+
+---
+
+## 3. L — Liskov Substitution Principle (LSP)
+
+**Definition:** Objects of a child class should be usable wherever objects of the parent class are expected, without breaking the expected behavior.
+
+Let's understand with a real-world example.
+
+Imagine a parent class called Bird.
+
+### Bad implementation
+
 ```python
 class Bird:
     def fly(self):
-        print("Flying")
+        print("Bird is flying")
 
 
 class Sparrow(Bird):
@@ -133,27 +168,24 @@ class Sparrow(Bird):
 
 class Penguin(Bird):
     def fly(self):
-        raise Exception("Penguins can't fly")
-
-
-def make_it_fly(bird):
-    bird.fly()
-
-make_it_fly(Sparrow())    # works
-make_it_fly(Penguin())    # crashes
+        raise Exception("Penguins cannot fly")
 ```
-`Bird` says every bird flies. `Penguin` is a bird but breaks that promise.
 
-**Good.** Don't promise what you can't keep:
+Problem:
+
+Penguin inherits from Bird, but it cannot satisfy the expected behavior of the `fly()` method.
+
+### Better implementation
+
 ```python
 class Bird:
     def eat(self):
-        print("Eating")
+        print("Bird is eating")
 
 
 class FlyingBird(Bird):
     def fly(self):
-        print("Flying")
+        print("Bird is flying")
 
 
 class Sparrow(FlyingBird):
@@ -162,189 +194,181 @@ class Sparrow(FlyingBird):
 
 class Penguin(Bird):
     pass
-
-
-def make_it_fly(bird: FlyingBird):
-    bird.fly()
-
-make_it_fly(Sparrow())    # works
-# Penguin never gets here, because it isn't a FlyingBird
 ```
 
-**Rules of thumb:**
-- A child shouldn't raise errors the parent never raises.
-- A child shouldn't do less than the parent promised.
-- If you find yourself overriding a method just to make it fail or do nothing, the inheritance is wrong.
+Now:
+
+- Sparrow can eat and fly.
+- Penguin can eat but doesn't need to fly.
+
+We avoid forcing Penguin to implement behavior it cannot support.
+
+**Remember:** A child class should behave consistently with what its parent promises.
 
 ---
 
-## I: Interface Segregation
+## 4. I — Interface Segregation Principle (ISP)
 
-Don't force a class to implement methods it doesn't use. Prefer several small interfaces over one big one.
+**Definition:** A class should not be forced to implement methods it doesn't use.
 
-**Bad.** One fat interface:
+Python doesn't have Java-style interfaces built into its syntax, but we can achieve this using abstract classes or Protocols.
+
+Imagine a machine interface:
+
+### Bad implementation
+
 ```python
-from abc import ABC, abstractmethod
+class Machine:
+    def print_document(self):
+        pass
 
-class Machine(ABC):
-    @abstractmethod
-    def print_doc(self): ...
+    def scan_document(self):
+        pass
 
-    @abstractmethod
-    def scan_doc(self): ...
-
-    @abstractmethod
-    def fax_doc(self): ...
+    def fax_document(self):
+        pass
 
 
-class BasicPrinter(Machine):
-    def print_doc(self):
+class SimplePrinter(Machine):
+    def print_document(self):
         print("Printing")
 
-    def scan_doc(self):
-        raise NotImplementedError    # can't scan
+    def scan_document(self):
+        pass
 
-    def fax_doc(self):
-        raise NotImplementedError    # can't fax
+    def fax_document(self):
+        pass
 ```
-`BasicPrinter` is stuck with two methods it can't do.
 
-**Good.** Small interfaces, pick what you need:
+Problem:
+
+A simple printer only prints. Why should it implement scanning and faxing?
+
+### Better implementation
+
 ```python
-from abc import ABC, abstractmethod
-
-class Printer(ABC):
-    @abstractmethod
-    def print_doc(self): ...
-
-
-class Scanner(ABC):
-    @abstractmethod
-    def scan_doc(self): ...
-
-
-class BasicPrinter(Printer):
-    def print_doc(self):
+class Printer:
+    def print_document(self):
         print("Printing")
 
 
-class AllInOne(Printer, Scanner):
-    def print_doc(self):
-        print("Printing")
-
-    def scan_doc(self):
+class Scanner:
+    def scan_document(self):
         print("Scanning")
+
+
+class Fax:
+    def fax_document(self):
+        print("Faxing")
+
+
+class SimplePrinter(Printer):
+    pass
+
+
+class MultiFunctionPrinter(Printer, Scanner, Fax):
+    pass
 ```
 
-**Check yourself:** methods that just `raise NotImplementedError` or `pass` in a child mean the interface is too big.
+Now each class implements only the functionality it needs.
 
-In Python this is less strict than in Java or C#, because duck typing lets you skip formal interfaces. The idea still applies: keep your base classes small and focused.
+**Remember:** Keep interfaces small and specific.
 
 ---
 
-## D: Dependency Inversion
+## 5. D — Dependency Inversion Principle (DIP)
 
-High-level code shouldn't depend on low-level details. Both should depend on an abstraction. In practice: **don't create your dependencies inside a class, pass them in.**
+**Definition:** High-level modules should not depend directly on low-level modules. Both should depend on abstractions.
 
-**Bad.** The service builds its own email sender:
+This sounds complicated, but let's understand it.
+
+Imagine you have an application that sends notifications.
+
+### Bad implementation
+
 ```python
-class EmailSender:
+class Email:
     def send(self, message):
-        print(f"Email: {message}")
+        print("Sending email:", message)
 
 
-class OrderService:
+class Notification:
     def __init__(self):
-        self.sender = EmailSender()       # locked to email
+        self.email = Email()
 
-    def place_order(self):
-        self.sender.send("Order placed")
+    def notify(self, message):
+        self.email.send(message)
 ```
-Want SMS instead? You edit `OrderService`. Want to test it without sending real emails? You can't.
 
-**Good.** Pass the sender in:
+Problem:
+
+The Notification class is tightly coupled to Email.
+
+What if tomorrow you want SMS or WhatsApp notifications?
+
+### Better implementation
+
 ```python
-class EmailSender:
+class Email:
     def send(self, message):
-        print(f"Email: {message}")
+        print("Sending email:", message)
 
 
-class SMSSender:
+class SMS:
     def send(self, message):
-        print(f"SMS: {message}")
+        print("Sending SMS:", message)
 
 
-class OrderService:
-    def __init__(self, sender):
-        self.sender = sender              # anything with a send() method
+class Notification:
+    def __init__(self, service):
+        self.service = service
 
-    def place_order(self):
-        self.sender.send("Order placed")
-
-
-OrderService(EmailSender()).place_order()    # Email: Order placed
-OrderService(SMSSender()).place_order()      # SMS: Order placed
+    def notify(self, message):
+        self.service.send(message)
 ```
 
-Testing becomes easy with a fake:
+### Usage
+
 ```python
-class FakeSender:
-    def __init__(self):
-        self.sent = []
+email = Email()
+sms = SMS()
 
-    def send(self, message):
-        self.sent.append(message)
+notification1 = Notification(email)
+notification1.notify("Hello!")
 
-
-fake = FakeSender()
-OrderService(fake).place_order()
-print(fake.sent)    # ['Order placed']
+notification2 = Notification(sms)
+notification2.notify("Hello!")
 ```
 
-`OrderService` only cares that the sender has a `send()` method. It doesn't care which one.
+### Output
+
+```text
+Sending email: Hello!
+Sending SMS: Hello!
+```
+
+Notice this line:
+
+```python
+notification = Notification(email)
+```
+
+We pass the dependency from outside instead of creating it inside the Notification class.
+
+This is called **Dependency Injection**, a technique that helps implement Dependency Inversion.
+
+**Remember:** Don't tightly couple your class to a particular implementation.
 
 ---
 
-## How they work together
+# Quick Revision for Interviews
 
-One small example: order processing.
-
-- **S**: `Order`, `OrderRepository` and `EmailService` each do one job.
-- **O**: new discount types are new classes.
-- **L**: every discount works wherever `final_price` expects a `Discount`.
-- **I**: `Printer` and `Scanner` stay separate.
-- **D**: `OrderService` receives its sender instead of making one.
-
----
-
-## Don't overdo it
-
-SOLID is a set of guidelines, not laws. Following it blindly gives you code with ten tiny classes for a ten-line script.
-
-- Small script or one-off job: keep it simple.
-- Don't add an abstraction before there's a second use for it. Wait until the code actually needs to change.
-- Apply SOLID when a file is growing, bugs appear every time you change something, or tests are hard to write.
+| Principle | Main idea | Remember |
+|---|---|---|
+| S — SRP | One responsibility | One job |
+| O — OCP | Extend without modifying existing code | Extend |
+| L — LSP | Child replaces parent safely | Substitution |
+| I — ISP | Small, specific interfaces | Don't force |
+| D — DIP | Depend on abstractions | Loose coupling |
 
 ---
-
-## Quick checklist
-
-Ask yourself:
-
-| Question | If "yes", think about |
-|----------|-----------------------|
-| Does this class do more than one job? | S: split it |
-| Am I editing old code to add a new case? | O: add a class instead |
-| Does a child raise errors or disable parent methods? | L: rework the inheritance |
-| Are there methods a child can't implement? | I: split the interface |
-| Does the class create its own tools inside? | D: pass them in |
-
----
-
-## Common mistakes
-
-- **Treating S as "one method per class".** It means one *reason to change*, not one method.
-- **Making an abstraction for everything.** One implementation and no plan for more means you don't need a base class yet.
-- **Inheriting just to reuse code.** Child classes should be a true "is-a" (a `Sparrow` is a `FlyingBird`). For reuse alone, use composition (a class that *holds* another).
-- **Using `if isinstance(...)` chains.** Often a sign that O or L is being broken.
-- **Hard-coding `SomeClass()` inside methods.** That's the D problem. Pass it in through `__init__`.
