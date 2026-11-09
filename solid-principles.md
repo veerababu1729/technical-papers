@@ -14,7 +14,7 @@ They are applicable to Python, Java, C++, and other object-oriented languages.
 
 ---
 
-## 1. S — Single Responsibility Principle (SRP)
+## 1. S - Single Responsibility Principle (SRP)
 
 **Definition:** A class should have only one reason to change.
 
@@ -74,7 +74,7 @@ Now each class has a separate responsibility.
 
 ---
 
-## 2. O — Open/Closed Principle (OCP)
+## 2. O - Open/Closed Principle (OCP)
 
 **Definition:** Software entities should be open for extension but closed for modification.
 
@@ -146,7 +146,7 @@ We can add new payment types without changing the existing payment implementatio
 
 ---
 
-## 3. L — Liskov Substitution Principle (LSP)
+## 3. L - Liskov Substitution Principle (LSP)
 
 **Definition:** Objects of a child class should be usable wherever objects of the parent class are expected, without breaking the expected behavior.
 
@@ -207,7 +207,7 @@ We avoid forcing Penguin to implement behavior it cannot support.
 
 ---
 
-## 4. I — Interface Segregation Principle (ISP)
+## 4. I - Interface Segregation Principle (ISP)
 
 **Definition:** A class should not be forced to implement methods it doesn't use.
 
@@ -276,7 +276,7 @@ Now each class implements only the functionality it needs.
 
 ---
 
-## 5. D — Dependency Inversion Principle (DIP)
+## 5. D - Dependency Inversion Principle (DIP)
 
 **Definition:** High-level modules should not depend directly on low-level modules. Both should depend on abstractions.
 
@@ -365,10 +365,10 @@ This is called **Dependency Injection**, a technique that helps implement Depend
 
 | Principle | Main idea | Remember |
 |---|---|---|
-| S — SRP | One responsibility | One job |
-| O — OCP | Extend without modifying existing code | Extend |
-| L — LSP | Child replaces parent safely | Substitution |
-| I — ISP | Small, specific interfaces | Don't force |
-| D — DIP | Depend on abstractions | Loose coupling |
+| S - SRP | One responsibility | One job |
+| O - OCP | Extend without modifying existing code | Extend |
+| L - LSP | Child replaces parent safely | Substitution |
+| I - ISP | Small, specific interfaces | Don't force |
+| D - DIP | Depend on abstractions | Loose coupling |
 
 ---
