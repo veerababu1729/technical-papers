@@ -359,6 +359,54 @@ This is called **Dependency Injection**, a technique that helps implement Depend
 
 **Remember:** Don't tightly couple your class to a particular implementation.
 
+### Using abstraction:  
+```python
+from abc import ABC, abstractmethod
+
+
+# Abstraction
+class NotificationService(ABC):
+
+    @abstractmethod
+    def send(self, message):
+        pass
+
+
+# Concrete class 1
+class Email(NotificationService):
+
+    def send(self, message):
+        print("Sending email:", message)
+
+
+# Concrete class 2
+class SMS(NotificationService):
+
+    def send(self, message):
+        print("Sending SMS:", message)
+
+
+# High-level class
+class Notification:
+
+    def __init__(self, service):
+        self.service = service
+
+    def notify(self, message):
+        self.service.send(message)
+
+
+# Using Email
+email = Email()
+notification = Notification(email)
+notification.notify("Hello!")
+
+# Using SMS
+sms = SMS()
+notification = Notification(sms)
+notification.notify("Hello!")  
+```
+
 ---
 
 # Quick Revision for Interviews
