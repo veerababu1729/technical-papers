@@ -1705,6 +1705,3 @@ FROM students;
 
 ---
 
-> **Learning order:** Setup -> SELECT -> WHERE -> ORDER BY / LIMIT -> Aggregates -> GROUP BY / HAVING -> JOINs -> Subqueries -> Normalization  
-> **Interview focus:** JOINs, GROUP BY + HAVING, Subqueries, Window Functions (next step after this sheet)
-
