@@ -1,4 +1,4 @@
-# SQL Cheatsheet — From Zero to One
+# SQL Cheatsheet - From Zero to One
 
 > Objective: Quick revison of SQL concepts.
 
