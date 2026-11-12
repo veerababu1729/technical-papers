@@ -13,7 +13,16 @@ For example, `SELECT DISTINCT city FROM students;` shows each city only once.
 <br>  
 <br>
 **3. What is difference between union and union all?**  
-`UNION` combines results of two queries and removes duplicate rows. `UNION ALL` combines them and keeps the duplicates, so it is also faster.
+`UNION` combines results of two queries and removes duplicate rows. `UNION ALL` combines them and keeps the duplicates, so it is also faster.  
+(i) UNION (removes duplicates)  
+`SELECT name FROM students_2024
+UNION
+SELECT name FROM students_2025;`  
+
+(ii)  UNION ALL (keeps duplicates)  
+`SELECT name FROM students_2024
+UNION ALL
+SELECT name FROM students_2025;`  
 <br>  
 <br>
 **4. Use of UPDATE command in sql?**  
