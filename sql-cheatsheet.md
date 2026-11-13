@@ -6,7 +6,7 @@
 
 ## Table of Contents
 1. [What is SQL?](#what-is-sql)
-2. [Setup — PostgreSQL on Ubuntu](#setup--postgresql-on-ubuntu)
+2. [Setup - PostgreSQL on Ubuntu](#setup--postgresql-on-ubuntu)
 3. [How psql Works Internally](#how-psql-works-internally)
 4. [Writing vs Execution Order](#writing-vs-execution-order)
 5. [Naming & Case Rules](#naming--case-rules)
@@ -14,8 +14,8 @@
 7. [Data Types & Constraints](#data-types--constraints)
 8. [CREATE TABLE](#create-table)
 9. [INSERT Rows](#insert-rows)
-10. [SELECT — Reading Data](#select--reading-data)
-11. [WHERE — Filtering Rows](#where--filtering-rows)
+10. [SELECT - Reading Data](#select--reading-data)
+11. [WHERE - Filtering Rows](#where--filtering-rows)
 12. [NULL Values](#null-values)
 13. [ORDER BY, LIMIT, OFFSET](#order-by-limit-offset)
 14. [Aggregate Functions](#aggregate-functions)
@@ -32,7 +32,7 @@
 25. [Indexes](#indexes)
 26. [JOINs](#joins)
 27. [Subqueries](#subqueries)
-28. [Schema — Theory vs Practice](#schema--theory-vs-practice)
+28. [Schema - Theory vs Practice](#schema--theory-vs-practice)
 29. [Normalization (1NF → 2NF → 3NF)](#normalization-1nf--2nf--3nf)
 30. [Triggers](#triggers)
 31. [CAP Theorem](#cap-theorem)
@@ -61,9 +61,9 @@
 
 ---
 
-## Setup — PostgreSQL on Ubuntu
+## Setup - PostgreSQL on Ubuntu
 
-### Step 1 — Install PostgreSQL
+### Step 1 - Install PostgreSQL
 
 ```bash
 sudo apt update
@@ -73,9 +73,9 @@ sudo systemctl start postgresql.service
 sudo systemctl status postgresql.service
 ```
 
-Expected status output: `active (running)` — if you see this, the server is alive.
+Expected status output: `active (running)` - if you see this, the server is alive.
 
-### Step 2 — Create your own role and database
+### Step 2 - Create your own role and database
 
 The default superuser is `postgres`. Do NOT practice as superuser. Create your own role.
 
@@ -83,7 +83,7 @@ The default superuser is `postgres`. Do NOT practice as superuser. Create your o
 sudo -u postgres psql
 ```
 
-Inside the psql shell (replace `veera` with your Linux username — check it with `whoami`):
+Inside the psql shell (replace `veera` with your Linux username - check it with `whoami`):
 
 ```sql
 CREATE ROLE veera WITH LOGIN PASSWORD 'yourpassword' CREATEDB;
@@ -91,19 +91,19 @@ CREATE DATABASE practice OWNER veera;
 \q
 ```
 
-### Step 3 — Connect to your database
+### Step 3 - Connect to your database
 
 ```bash
 psql -d practice
 ```
 
-Your prompt should look like: `practice=>` (the `=>` means you are a normal user, not superuser — that's correct).
+Your prompt should look like: `practice=>` (the `=>` means you are a normal user, not superuser - that's correct).
 
 **Troubleshooting:**
 - `role does not exist` → you skipped Step 2.
 - `Peer authentication failed` → your Linux username doesn't match the role name.
 
-### Step 4 — Essential psql Commands
+### Step 4 - Essential psql Commands
 
 | Command          | What it does                   |
 |------------------|-------------------------------|
@@ -117,7 +117,7 @@ Your prompt should look like: `practice=>` (the `=>` means you are a normal user
 
 > **Common mistake:** Pressing Ctrl+Z does NOT quit psql. It suspends it in the background. Always use `\q` or Ctrl+D. If you accidentally suspend it, run `fg` to bring it back, then `\q`.
 
-### Step 5 — Run SQL from a file
+### Step 5 - Run SQL from a file
 
 ```bash
 psql -d practice -f myfile.sql
@@ -191,7 +191,7 @@ SELECT → FROM → JOIN → WHERE → GROUP BY → HAVING → ORDER BY → LIMI
 FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT → OFFSET
 ```
 
-> This explains why you CANNOT use a `SELECT` alias in a `WHERE` clause — `WHERE` runs before `SELECT`. But you CAN use an alias in `ORDER BY` because `ORDER BY` runs after `SELECT`.
+> This explains why you CANNOT use a `SELECT` alias in a `WHERE` clause - `WHERE` runs before `SELECT`. But you CAN use an alias in `ORDER BY` because `ORDER BY` runs after `SELECT`.
 
 ---
 
@@ -253,7 +253,7 @@ SELECT name, marks FROM students WHERE city = 'Kakinada';
 | `UNIQUE`      | No two rows can have the same value in this column|
 | `DEFAULT val` | Use this value if none is provided on insert      |
 | `CHECK (cond)`| Row is rejected if condition is false             |
-| `REFERENCES`  | Foreign key — links to another table's primary key|
+| `REFERENCES`  | Foreign key - links to another table's primary key|
 
 ---
 
@@ -280,7 +280,7 @@ CREATE TABLE students (
 ```
 
 **What each part does:**
-- `SERIAL` → PostgreSQL auto-generates 1, 2, 3, ... — you never insert this manually
+- `SERIAL` → PostgreSQL auto-generates 1, 2, 3, ... - you never insert this manually
 - `PRIMARY KEY` → unique identifier for each row; cannot be NULL
 - `NOT NULL` → field is mandatory
 - `DEFAULT` → used when the INSERT doesn't mention this column
@@ -297,7 +297,7 @@ INSERT INTO students
 VALUES (1, 'Ravi', 'Kakinada', 85, true);
 ```
 
-### Insert specific columns (recommended — safer)
+### Insert specific columns (recommended - safer)
 
 ```sql
 INSERT INTO students (name, city, marks)
@@ -318,7 +318,7 @@ INSERT INTO students (name, city, marks) VALUES
 
 ---
 
-## SELECT — Reading Data
+## SELECT - Reading Data
 
 ```sql
 SELECT column1, column2 FROM table_name;
@@ -338,7 +338,7 @@ SELECT city, AVG(marks) FROM students GROUP BY city;
 
 ---
 
-## WHERE — Filtering Rows
+## WHERE - Filtering Rows
 
 `WHERE` filters rows **before** any grouping or aggregation. It runs on individual rows.
 
@@ -483,7 +483,7 @@ GROUP BY city
 HAVING COUNT(*) > 1;
 ```
 
-### WHERE vs HAVING — The critical difference
+### WHERE vs HAVING - The critical difference
 
 | Clause   | Filters          | Runs on          | Can use aggregates? |
 |----------|------------------|------------------|---------------------|
@@ -498,7 +498,7 @@ GROUP BY city
 HAVING AVG(marks) > 70;   -- then filter groups
 ```
 
-> **Common mistake:** Using `HAVING` without `GROUP BY`. You can technically do it, but then you're treating the entire result as one group — rarely what you want. If you have no `GROUP BY`, just use `WHERE`.
+> **Common mistake:** Using `HAVING` without `GROUP BY`. You can technically do it, but then you're treating the entire result as one group - rarely what you want. If you have no `GROUP BY`, just use `WHERE`.
 
 ---
 
@@ -566,7 +566,7 @@ If those are the rows you want gone, then run the DELETE.
 
 A **transaction** is a sequence of one or more SQL statements treated as a **single unit of work**. Either all of them succeed together, or none of them are applied.
 
-Think of it like a shopping cart checkout: either your payment goes through AND the items are reserved AND the invoice is generated — all at once — or if anything fails, none of it happens. You never end up with money deducted but no order placed.
+Think of it like a shopping cart checkout: either your payment goes through AND the items are reserved AND the invoice is generated - all at once - or if anything fails, none of it happens. You never end up with money deducted but no order placed.
 
 **Classic real-world example:** Bank transfer.
 
@@ -577,7 +577,7 @@ Step 1: Deduct ₹500 from your account   (1000 → 500)
 Step 2: Add   ₹500 to friend's account  ( 200 → 700)
 ```
 
-If the server crashes after Step 1 but before Step 2 — your ₹500 is gone and your friend got nothing. A transaction prevents this — both steps succeed or neither does.
+If the server crashes after Step 1 but before Step 2 - your ₹500 is gone and your friend got nothing. A transaction prevents this - both steps succeed or neither does.
 
 ### Setup for all examples below
 
@@ -598,12 +598,12 @@ INSERT INTO accounts (name, balance) VALUES
 | Statement          | What it does                                              |
 |--------------------|-----------------------------------------------------------|
 | `BEGIN`            | Start a transaction block                                 |
-| `COMMIT`           | Save all changes — make them permanent                    |
-| `ROLLBACK`         | Undo everything since BEGIN — as if it never ran          |
+| `COMMIT`           | Save all changes - make them permanent                    |
+| `ROLLBACK`         | Undo everything since BEGIN - as if it never ran          |
 | `SAVEPOINT name`   | Create a named checkpoint inside a transaction            |
 | `ROLLBACK TO name` | Undo back to a savepoint only, not the full transaction   |
 
-### Example 1 — Successful transfer (COMMIT)
+### Example 1 - Successful transfer (COMMIT)
 
 ```sql
 BEGIN;
@@ -622,7 +622,7 @@ SELECT * FROM accounts;
 -- Bob:   700
 ```
 
-### Example 2 — Something went wrong (ROLLBACK)
+### Example 2 - Something went wrong (ROLLBACK)
 
 ```sql
 BEGIN;
@@ -635,7 +635,7 @@ ROLLBACK;
 
 After ROLLBACK: Alice still has 1000. The deduction never happened.
 
-### Example 3 — Constraint violation mid-transaction
+### Example 3 - Constraint violation mid-transaction
 
 ```sql
 BEGIN;
@@ -647,15 +647,15 @@ UPDATE accounts SET balance = balance - 800 WHERE name = 'Alice';
 -- This would make Alice's balance -100 → violates CHECK (balance >= 0)
 -- PostgreSQL raises an ERROR and aborts the entire transaction
 
--- You MUST rollback now — no more statements are allowed in this transaction
+-- You MUST rollback now - no more statements are allowed in this transaction
 ROLLBACK;
 ```
 
 > **Important:** Once PostgreSQL raises an error inside a transaction, the whole transaction is aborted. You cannot run more statements. You MUST `ROLLBACK` before starting a new one.
 
-### Example 4 — SAVEPOINT (partial undo)
+### Example 4 - SAVEPOINT (partial undo)
 
-SAVEPOINT lets you mark a checkpoint inside a transaction. If something goes wrong later, you can roll back only to that point — not all the way to `BEGIN`.
+SAVEPOINT lets you mark a checkpoint inside a transaction. If something goes wrong later, you can roll back only to that point - not all the way to `BEGIN`.
 
 ```sql
 BEGIN;
@@ -664,7 +664,7 @@ INSERT INTO accounts (name, balance) VALUES ('Charlie', 500);
 SAVEPOINT after_charlie;        -- mark checkpoint here
 
 INSERT INTO accounts (name, balance) VALUES ('Dave', 300);
--- Oops — Dave was added by mistake
+-- Oops - Dave was added by mistake
 
 ROLLBACK TO after_charlie;      -- Dave's row is removed; Charlie's row still exists
 
@@ -695,16 +695,16 @@ ACID is the set of four guarantees that every database transaction must satisfy.
 
 ### Each property explained
 
-**Atomicity** — The "all or nothing" rule.  
+**Atomicity** - The "all or nothing" rule.  
 If a transaction has 5 statements and the 3rd one fails, the first 2 are automatically rolled back. The database never ends up in a half-done state.
 
-**Consistency** — Rules are never broken.  
+**Consistency** - Rules are never broken.  
 Constraints (`NOT NULL`, `FOREIGN KEY`, `CHECK`) are always enforced. A transaction that would break a rule is rejected entirely.
 
-**Isolation** — Transactions don't see each other's in-progress work.  
-If two transactions run at the same time, each one behaves as if it's the only one running. (How strictly this is enforced is controlled by Isolation Levels — see the next section.)
+**Isolation** - Transactions don't see each other's in-progress work.  
+If two transactions run at the same time, each one behaves as if it's the only one running. (How strictly this is enforced is controlled by Isolation Levels - see the next section.)
 
-**Durability** — Committed data is permanent.  
+**Durability** - Committed data is permanent.  
 PostgreSQL writes to a WAL (Write-Ahead Log) before confirming a commit. If the server crashes right after a COMMIT, the data is recovered from the log on restart.
 
 > **Most missed concept:** ACID is a *guarantee set*, not a feature you turn on. It describes how a well-implemented transaction system must behave. When a system claims "ACID compliance," it means all four properties hold.
@@ -717,9 +717,9 @@ PostgreSQL writes to a WAL (Write-Ahead Log) before confirming a commit. If the 
 
 Locks are how the database enforces isolation when multiple users (or processes) access the same data at the same time. Without locks, two people could update the same row simultaneously and produce garbage results.
 
-**Real-world analogy:** A shared Google Doc with "editing" mode — only one person edits at a time while others can still read it. The lock is the edit access.
+**Real-world analogy:** A shared Google Doc with "editing" mode - only one person edits at a time while others can still read it. The lock is the edit access.
 
-### Why locks exist — a concrete problem without them
+### Why locks exist - a concrete problem without them
 
 Imagine two people booking the last seat on a flight simultaneously:
 
@@ -740,8 +740,8 @@ A lock on the row when Person A reads-to-update would have blocked Person B unti
 | **Shared Lock (S)**     | Multiple readers  | Only exclusive writers   | Reading a row  |
 | **Exclusive Lock (X)**  | One writer only   | All readers and writers  | Writing a row  |
 
-- Many transactions can hold a shared lock on the same row simultaneously — reads don't block reads.
-- An exclusive lock is held alone — a writer blocks everyone else until COMMIT or ROLLBACK.
+- Many transactions can hold a shared lock on the same row simultaneously - reads don't block reads.
+- An exclusive lock is held alone - a writer blocks everyone else until COMMIT or ROLLBACK.
 
 ### How PostgreSQL acquires locks automatically
 
@@ -755,7 +755,7 @@ You don't usually write lock commands manually. PostgreSQL handles it:
 | `DELETE`              | Exclusive lock on the target row   |
 | `ALTER TABLE`         | Full table lock                    |
 
-### SELECT FOR UPDATE — explicit row locking
+### SELECT FOR UPDATE - explicit row locking
 
 Use this when you need to read a row and you know you're about to update it. It locks the row immediately at SELECT time so no other transaction can modify it between your read and your write.
 
@@ -764,7 +764,7 @@ Use this when you need to read a row and you know you're about to update it. It 
 BEGIN;
 
 SELECT balance FROM accounts WHERE name = 'Alice' FOR UPDATE;
--- Row is now LOCKED — Session B cannot touch Alice's row until Session A commits
+-- Row is now LOCKED - Session B cannot touch Alice's row until Session A commits
 
 UPDATE accounts SET balance = balance - 500 WHERE name = 'Alice';
 
@@ -782,19 +782,19 @@ SELECT balance FROM accounts WHERE name = 'Alice' FOR UPDATE;
 COMMIT;
 ```
 
-Without `FOR UPDATE`, Session B could read Alice's old balance, compute a new value based on it, and overwrite Session A's change — classic race condition.
+Without `FOR UPDATE`, Session B could read Alice's old balance, compute a new value based on it, and overwrite Session A's change - classic race condition.
 
 ### Row-level vs Table-level locks
 
 | Level        | Locks          | Speed    | Contention |
 |--------------|----------------|----------|------------|
-| Row-level    | One specific row  | Fast     | Low — other rows unaffected |
-| Table-level  | Entire table    | Slow     | High — blocks all other operations |
+| Row-level    | One specific row  | Fast     | Low - other rows unaffected |
+| Table-level  | Entire table    | Slow     | High - blocks all other operations |
 
 PostgreSQL uses row-level locking by default for `UPDATE`, `DELETE`, `SELECT FOR UPDATE`.  
 Table-level locks are used by `ALTER TABLE`, `DROP TABLE`, `TRUNCATE`, `VACUUM FULL`.
 
-### Deadlocks — when two locks wait for each other
+### Deadlocks - when two locks wait for each other
 
 A deadlock occurs when:
 - Transaction A holds a lock on Row 1 and waits for Row 2
@@ -827,7 +827,7 @@ The killed transaction gets a deadlock error and must be retried. The other tran
 -- Safe pattern: always lock lower id first
 BEGIN;
 SELECT * FROM accounts WHERE name IN ('Alice', 'Bob') ORDER BY id FOR UPDATE;
--- Locks both rows in consistent order — no deadlock possible
+-- Locks both rows in consistent order - no deadlock possible
 UPDATE accounts SET balance = balance - 100 WHERE name = 'Alice';
 UPDATE accounts SET balance = balance + 100 WHERE name = 'Bob';
 COMMIT;
@@ -847,7 +847,7 @@ Isolation levels let you control the trade-off between data accuracy and perform
 
 Understanding these problems first makes the levels much easier to remember.
 
-**Problem 1 — Dirty Read**
+**Problem 1 - Dirty Read**
 
 You read data that another transaction wrote but hasn't committed yet. If that other transaction rolls back, you read data that never officially existed.
 
@@ -859,7 +859,7 @@ Session A: ROLLBACK;  -- 9999 never existed officially
 Session B: made a decision based on a lie
 ```
 
-**Problem 2 — Non-Repeatable Read**
+**Problem 2 - Non-Repeatable Read**
 
 You read the same row twice inside the same transaction and get different values because another transaction committed a change in between.
 
@@ -873,7 +873,7 @@ Session A: SELECT balance FROM accounts WHERE name = 'Alice';  -- gets 500 now!
 Session A: COMMIT;
 ```
 
-**Problem 3 — Phantom Read**
+**Problem 3 - Phantom Read**
 
 You run the same WHERE query twice and get different sets of rows because another transaction inserted or deleted matching rows in between.
 
@@ -921,7 +921,7 @@ SELECT balance FROM accounts WHERE name = 'Alice';
 
 SELECT balance FROM accounts WHERE name = 'Alice';
 -- Returns: 600  (sees Session B's committed change)
--- This is a non-repeatable read — different values in same transaction
+-- This is a non-repeatable read - different values in same transaction
 COMMIT;
 ```
 
@@ -969,7 +969,7 @@ SET default_transaction_isolation = 'repeatable read';
 | Generating a consistent report (snapshot of data)      | `REPEATABLE READ`   |
 | Financial transfers, inventory updates, booking seats  | `SERIALIZABLE`      |
 
-> **PostgreSQL default is `READ COMMITTED`** — right for most web applications. The database re-reads committed data at each statement, which is a good balance.
+> **PostgreSQL default is `READ COMMITTED`** - right for most web applications. The database re-reads committed data at each statement, which is a good balance.
 
 > **Common mistake:** Thinking the default is `SERIALIZABLE`. It is not. You have to explicitly opt into higher isolation when exactness matters. For interview prep: know what each level prevents and name an example use case for each.
 
@@ -1013,7 +1013,7 @@ RENAME TO learners;
 
 ## DROP TABLE
 
-Removes the entire table — structure and all data — permanently.
+Removes the entire table - structure and all data - permanently.
 
 ```sql
 DROP TABLE students;
@@ -1029,7 +1029,7 @@ DROP TABLE IF EXISTS students;   -- safer: doesn't error if table doesn't exist
 
 ## Indexes
 
-An index is a separate data structure the database maintains to make lookups faster — just like the index at the back of a textbook lets you jump to a topic without reading every page.
+An index is a separate data structure the database maintains to make lookups faster - just like the index at the back of a textbook lets you jump to a topic without reading every page.
 
 **Without an index:** The database reads every row (full table scan) to find matches. With 10 million rows, this is slow.  
 **With an index:** The database jumps directly to the matching rows using a B-tree (or other structure).
@@ -1085,9 +1085,9 @@ DROP INDEX idx_students_city;
 | `SELECT` and `JOIN` queries faster  | `INSERT`, `UPDATE`, `DELETE` slightly slower       |
 | Enforces uniqueness (UNIQUE index)  | Extra disk space                                  |
 
-> **Rule of thumb:** Index columns that appear in `WHERE`, `JOIN ON`, and `ORDER BY` clauses. Don't over-index — every index slows down writes.
+> **Rule of thumb:** Index columns that appear in `WHERE`, `JOIN ON`, and `ORDER BY` clauses. Don't over-index - every index slows down writes.
 
-> **Most missed concept:** Primary keys are automatically indexed. You don't need to manually create an index on `id`. Foreign key columns, however, are NOT automatically indexed in PostgreSQL — you should add them manually.
+> **Most missed concept:** Primary keys are automatically indexed. You don't need to manually create an index on `id`. Foreign key columns, however, are NOT automatically indexed in PostgreSQL - you should add them manually.
 
 ```sql
 CREATE INDEX idx_employees_dept_id ON employees (dept_id);
@@ -1114,7 +1114,7 @@ CREATE TABLE employees (
 );
 ```
 
-### INNER JOIN — only matching rows from both tables
+### INNER JOIN - only matching rows from both tables
 
 ```sql
 SELECT e.name, d.dept_name
@@ -1124,7 +1124,7 @@ INNER JOIN departments AS d ON e.dept_id = d.dept_id;
 
 Returns only employees who have a matching department.
 
-### LEFT JOIN — all rows from left table, NULLs for unmatched right
+### LEFT JOIN - all rows from left table, NULLs for unmatched right
 
 ```sql
 SELECT e.name, d.dept_name
@@ -1134,7 +1134,7 @@ LEFT JOIN departments AS d ON e.dept_id = d.dept_id;
 
 Returns all employees; if no matching department, `dept_name` is NULL.
 
-### RIGHT JOIN — all rows from right table, NULLs for unmatched left
+### RIGHT JOIN - all rows from right table, NULLs for unmatched left
 
 ```sql
 SELECT e.name, d.dept_name
@@ -1144,7 +1144,7 @@ RIGHT JOIN departments AS d ON e.dept_id = d.dept_id;
 
 Returns all departments; employees without a department show NULL.
 
-### FULL OUTER JOIN — all rows from both tables
+### FULL OUTER JOIN - all rows from both tables
 
 ```sql
 SELECT e.name, d.dept_name
@@ -1212,9 +1212,9 @@ WHERE city IN (
 
 ---
 
-## Schema — Theory vs Practice
+## Schema - Theory vs Practice
 
-**Theory meaning of schema:** The structure/blueprint of a table — which columns exist, what data types they have, what constraints are set.
+**Theory meaning of schema:** The structure/blueprint of a table - which columns exist, what data types they have, what constraints are set.
 
 **Practical meaning in PostgreSQL:** A schema is also a **namespace** inside a database. The default schema is `public`. You can have multiple schemas in one database to organize tables (like folders).
 
@@ -1248,7 +1248,7 @@ Problem: `courses` column has multiple values in one cell.
 
 ---
 
-### 1NF — First Normal Form
+### 1NF - First Normal Form
 
 **Rule:** Each cell must contain exactly one atomic value. No lists, no repeating groups.
 
@@ -1259,15 +1259,15 @@ Problem: `courses` column has multiple values in one cell.
 | 2          | Priya        | Java   |
 | 2          | Priya        | Python |
 
-Fixed the multi-value issue. But now `Ravi` appears twice — redundancy remains.
+Fixed the multi-value issue. But now `Ravi` appears twice - redundancy remains.
 
 ---
 
-### 2NF — Second Normal Form
+### 2NF - Second Normal Form
 
 **Rule:** Must be in 1NF, and every non-key column must depend on the ENTIRE primary key (no partial dependencies).
 
-Here, the composite key is `(student_id, course)`. But `student_name` depends only on `student_id` — that's a partial dependency.
+Here, the composite key is `(student_id, course)`. But `student_name` depends only on `student_id` - that's a partial dependency.
 
 **Fix:** Split into two tables.
 
@@ -1288,7 +1288,7 @@ Here, the composite key is `(student_id, course)`. But `student_name` depends on
 
 ---
 
-### 3NF — Third Normal Form
+### 3NF - Third Normal Form
 
 **Rule:** Must be in 2NF, and no non-key column should depend on another non-key column (no transitive dependencies).
 
@@ -1351,9 +1351,9 @@ CREATE TABLE enrollments (
 
 ## Triggers
 
-A trigger is a function the database automatically runs when a specific event happens on a table — no manual call needed. You define it once; it fires every time that event occurs.
+A trigger is a function the database automatically runs when a specific event happens on a table - no manual call needed. You define it once; it fires every time that event occurs.
 
-**Think of it as:** A motion-sensor light. You don't flip a switch — just walk in and it turns on automatically. A trigger is the same idea applied to database events.
+**Think of it as:** A motion-sensor light. You don't flip a switch - just walk in and it turns on automatically. A trigger is the same idea applied to database events.
 
 ### Where triggers are useful
 
@@ -1362,12 +1362,12 @@ A trigger is a function the database automatically runs when a specific event ha
 - **Validation:** Reject data that breaks a business rule the CHECK constraint can't express
 - **Derived columns:** Auto-compute a value based on other columns being changed
 
-### Trigger anatomy — two separate parts
+### Trigger anatomy - two separate parts
 
 You always need both:
 
-1. **Trigger function** — a PL/pgSQL function that says *what to do*
-2. **Trigger** — connects the function to a table and an event, says *when to do it*
+1. **Trigger function** - a PL/pgSQL function that says *what to do*
+2. **Trigger** - connects the function to a table and an event, says *when to do it*
 
 ### Setup for all examples
 
@@ -1390,7 +1390,7 @@ CREATE TABLE audit_log (
 INSERT INTO students (name, marks) VALUES ('Ravi', 85), ('Priya', 90);
 ```
 
-### Example 1 — Auto-update timestamp on every UPDATE
+### Example 1 - Auto-update timestamp on every UPDATE
 
 **Step 1: Write the trigger function**
 
@@ -1404,7 +1404,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-`NEW` is a special variable — it holds the row that is about to be inserted or updated. You can modify it before returning.
+`NEW` is a special variable - it holds the row that is about to be inserted or updated. You can modify it before returning.
 
 **Step 2: Attach it to the table**
 
@@ -1424,9 +1424,9 @@ SELECT name, marks, updated_at FROM students WHERE name = 'Ravi';
 -- Ravi | 95 | 2026-11-12 22:05:00  (timestamp was set automatically)
 ```
 
-You didn't write `updated_at` anywhere in your UPDATE — the trigger did it.
+You didn't write `updated_at` anywhere in your UPDATE - the trigger did it.
 
-### Example 2 — Audit log: record every INSERT, UPDATE, DELETE
+### Example 2 - Audit log: record every INSERT, UPDATE, DELETE
 
 **Step 1: Write the trigger function**
 
@@ -1447,9 +1447,9 @@ $$ LANGUAGE plpgsql;
 ```
 
 Built-in trigger variables:
-- `TG_OP` — the event that fired: `'INSERT'`, `'UPDATE'`, or `'DELETE'`
-- `NEW` — the row being inserted or the new version of an updated row
-- `OLD` — the row before an update, or the row being deleted
+- `TG_OP` - the event that fired: `'INSERT'`, `'UPDATE'`, or `'DELETE'`
+- `NEW` - the row being inserted or the new version of an updated row
+- `OLD` - the row before an update, or the row being deleted
 
 **Step 2: Attach it**
 
@@ -1474,9 +1474,9 @@ SELECT * FROM audit_log;
 -- | students   | DELETE | 3      | 2026-11-12 22:05:12 |
 ```
 
-Every operation on `students` is automatically recorded — without writing a single line in your application code.
+Every operation on `students` is automatically recorded - without writing a single line in your application code.
 
-### Example 3 — BEFORE trigger for validation
+### Example 3 - BEFORE trigger for validation
 
 Block an insert or update if the data breaks a business rule.
 
@@ -1506,7 +1506,7 @@ UPDATE students SET marks = 60 WHERE name = 'Ravi';   -- Ravi had 95
 
 The UPDATE is blocked entirely. The row is not changed.
 
-### BEFORE vs AFTER — which to use?
+### BEFORE vs AFTER - which to use?
 
 | Timing   | When it fires                        | Can modify NEW? | Typical use                              |
 |----------|--------------------------------------|-----------------|------------------------------------------|
@@ -1533,7 +1533,7 @@ DROP TRIGGER trg_audit_students ON students;
 DROP FUNCTION log_student_changes();   -- drop function separately if no longer needed
 ```
 
-> **Common mistake:** In a `BEFORE` trigger, forgetting to `RETURN NEW`. If you `RETURN NULL` from a BEFORE trigger, the operation (INSERT/UPDATE) is silently cancelled — the row is not saved and no error is raised. This is intentional for validation triggers that want to block the write.
+> **Common mistake:** In a `BEFORE` trigger, forgetting to `RETURN NEW`. If you `RETURN NULL` from a BEFORE trigger, the operation (INSERT/UPDATE) is silently cancelled - the row is not saved and no error is raised. This is intentional for validation triggers that want to block the write.
 
 > **Another mistake:** Trying to access `NEW` in a DELETE trigger or `OLD` in an INSERT trigger. `NEW` doesn't exist on DELETE (there's no new row). `OLD` doesn't exist on INSERT (there was no previous row).
 
@@ -1543,11 +1543,11 @@ DROP FUNCTION log_student_changes();   -- drop function separately if no longer 
 
 ## CAP Theorem
 
-CAP Theorem states that any distributed database system can only guarantee **two of the following three** properties at the same time — never all three.
+CAP Theorem states that any distributed database system can only guarantee **two of the following three** properties at the same time - never all three.
 
 | Letter | Property        | Meaning                                                                                      |
 |--------|-----------------|----------------------------------------------------------------------------------------------|
-| **C**  | Consistency     | Every read returns the most recent write (or an error) — no stale data                      |
+| **C**  | Consistency     | Every read returns the most recent write (or an error) - no stale data                      |
 | **A**  | Availability    | Every request gets a response (not necessarily the latest data, but always a response)       |
 | **P**  | Partition Tolerance | The system keeps working even when network communication between nodes breaks down       |
 
@@ -1558,13 +1558,13 @@ In a distributed system (data spread across multiple machines/data centers), a *
 - **Sacrifice Consistency** → both nodes stay available, but may serve different (stale) data → **AP system**
 - **Sacrifice Availability** → refuse to respond until the partition heals → **CP system**
 
-You cannot avoid Partition Tolerance in a real distributed system — networks fail. So the real choice is always **C vs A** when a partition occurs.
+You cannot avoid Partition Tolerance in a real distributed system - networks fail. So the real choice is always **C vs A** when a partition occurs.
 
 ### Where real systems land
 
 | System                     | Guarantees | Trade-off                                                |
 |----------------------------|------------|----------------------------------------------------------|
-| PostgreSQL, MySQL (single node) | CA     | No partition tolerance — not distributed by default      |
+| PostgreSQL, MySQL (single node) | CA     | No partition tolerance - not distributed by default      |
 | MongoDB (default config)   | AP         | Prioritizes availability; eventual consistency           |
 | HBase, Zookeeper           | CP         | Prioritizes consistency; may refuse requests             |
 | Cassandra                  | AP         | Tunable consistency per query                            |
@@ -1588,7 +1588,7 @@ You cannot avoid Partition Tolerance in a real distributed system — networks f
 |---------|-----------------|
 | `WHERE marks = NULL` | `WHERE marks IS NULL` |
 | Using aggregate in WHERE: `WHERE AVG(marks) > 70` | Use HAVING: `HAVING AVG(marks) > 70` |
-| `UPDATE students SET marks = 90` without WHERE | Always add WHERE — this updates every row |
+| `UPDATE students SET marks = 90` without WHERE | Always add WHERE - this updates every row |
 | `DELETE FROM students` without WHERE | Deletes all rows; table structure remains |
 | Using alias in WHERE: `WHERE adjusted = 90` | Alias is from SELECT which runs after WHERE; use the full expression |
 | `NULL = NULL` returns TRUE | NULL = NULL returns UNKNOWN; use `IS NULL` |
