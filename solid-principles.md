@@ -409,7 +409,7 @@ notification.notify("Hello!")
 
 ---
 
-# Quick Revision for Interviews
+# Quick Revision:
 
 | Principle | Main idea | Remember |
 |---|---|---|
