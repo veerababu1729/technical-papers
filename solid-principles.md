@@ -357,7 +357,7 @@ We pass the dependency from outside instead of creating it inside the Notificati
 
 This is called **Dependency Injection**, a technique that helps implement Dependency Inversion.
 
-**Remember:** Don't tightly couple your class to a particular implementation.
+**Remember:** Don't tightly couple your class to a particular implementation.  "High-level modules should depend on abstractions, not on concrete implementations."  
 
 ### Using abstraction:  
 ```python
